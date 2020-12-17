@@ -7,22 +7,24 @@
 }
 
 body{
-    padding: 40px 200px;
+    /* padding: 40px 200px; */
     background-color: #F7F8FA;
+    font-family: 'Roboto', sans-serif;
 }
 
 main{
     display: flex;
-    font-family: 'Roboto', sans-serif;
     -webkit-box-shadow: 0px 2px 17px 5px rgba(0,0,0,0.12); 
     box-shadow: 0px 2px 17px 5px rgba(0,0,0,0.12);
     border-radius: 20px;
+    width: 90%;
+    margin: 30px auto;
 }
 
 
 
 #sidebar{
-    min-height: calc(100vh - 80px);
+    height: calc(100vh - 80px);
     background-color: white;
     flex: 1;
     padding: 20px;
@@ -34,11 +36,30 @@ main{
     border-radius: 20px 0 0 20px;
 }
 
+.logo{
+    display:flex;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.logo h1{
+    font-weight: 100;
+    margin: 0 10px;
+}
+
+.logo span{
+    font-weight: 300;
+}
+
+.logo img{
+    height: 40px;
+}
+
 #side-links{
     list-style: none;
     min-height: 140px;
     padding: 10px;
-    margin-top: 100px;
+    margin-top: 60px;
     min-width: 260px;
     display: flex;
     flex-direction: column;
@@ -60,10 +81,7 @@ main{
     margin-right: 20px;
 }
 
-.fa-chevron-down, .fa-chevron-up{
-    font-size: 13px;
-    animation: emerge 0.6s;
-}
+
 
 .active-link{
     color: #653FDB !important; 
@@ -89,7 +107,29 @@ main{
     animation: emerge 0.7s forwards;
 }
 
-@keyframes emerge {
+.github{
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}
+
+.github span{
+    display: none;
+    margin: 0 10px;
+    animation: textAppear 0.8s forwards;
+    font-weight: 200;
+}
+
+.github:hover  span{
+    display: block;
+    animation: textAppear 0.8s forwards;
+}
+
+@keyframes textAppear{
     from{
         opacity: 0;
     }
@@ -104,7 +144,7 @@ main{
     background-color: #F7F8FA;
     flex: 3;
     overflow-y: scroll;
-    min-height: calc(100vh - 80px);
+    height: calc(100vh - 80px);
     padding: 20px 30px;
     border-radius: 0 20px 20px 0;
     position: relative;
@@ -158,7 +198,7 @@ main{
 }
 
 .modal p{
-    margin-top: 140px;
+    margin-top: 30px;
     font-size: 32px;
     font-weight: 300;
     padding: 10px;
@@ -258,44 +298,126 @@ main{
     z-index: 0;
 }
 
-.todo-wrapper li{
+.todo li{
     width: 100%;
     list-style: none;
     background-color: white;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 5px 20px;
     border-radius: 15px;
-    animation: emerge 0.6s forwards;
 }
 
+
+
+.todo-title{
+    width: 120px;
+}
+
+
+.expand-button{
+    transition: 0.3s all ease-in-out;
+    justify-self: flex-end;
+}
+
+
+
+.expand-button:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+
+.details{
+    display: none;
+    position: relative;
+    width: 100%;
+    padding: 20px 10px;
+}
+
+.details p{
+    font-weight: 200;
+}
+
+ .expand-details{
+    display: flex;
+    min-height: 60px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.details > *{
+    flex: 1;
+}
+
+.details .edit-button{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    transition: 0.3s all ease-in-out;
+}
+
+.edit-button:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
 
 
 .completed span{
-    list-style: none;
-    opacity: 0.7;
+    opacity: 0.3;
     text-decoration: line-through;
 }
 
-/* .todo-wrapper label{
-    color: #FF873D;
-    font-size: 18px;
-    font-weight: 500;
-} */
 
 .todo-wrapper input[type = "checkbox"] {
     display: none;
 }
   
-  .todo-wrapper input[type = "checkbox"] + label:before {
+.todo-wrapper input[type = "checkbox"] + label:before {
     content: "⬜️";
     margin-right: 50px;
-  }
-  
-  .todo-wrapper input[type = "checkbox"]:checked + label:before {
+    /* justify-self: flex-start; */
+}
+
+.todo-wrapper input[type = "checkbox"]:checked + label:before {
     content: "✅";
-  }
+}
+
+
+.notification-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    padding: 0 5px;
+    bottom: 50px;
+    left: 50%;
+    right: 50%;
+    background-color: rgb(57, 53, 92);
+    color: white;
+    height: 50px;
+    min-width: 200px;
+    border-radius: 10px;
+    transform: translateY(100px);
+    transition: 0.4s all ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+    animation: emerge 0.6s forwards;
+}
+
+.notification-active{
+    transform: translateY(0);
+}
 
 
 
+@keyframes emerge {
+    from{
+        opacity: 0;
+    }
+
+    to{
+        opacity: 1;
+    }
+}
 

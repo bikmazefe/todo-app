@@ -1,6 +1,8 @@
 import '@fortawesome/fontawesome-free/js/all.js';
-import { loadPage, loadProjects, populateEditForm } from './modules/display-controller';
-import { todoFactory, getProjects, toggleCompleted, filterTodos } from './modules/todos'
+import { loadPage, loadProjects, populateEditForm, populateProjectOptions } from './modules/display-controller';
+import { todoFactory, getProjects, toggleCompleted, filterTodos, sortTodos } from './modules/todos';
+import { showNotification } from './modules/notifications';
+import "./style.css";
 
 
 // form elements and buttons
@@ -31,7 +33,16 @@ function addTodo (e) {
     let title = this.querySelector('[name=title]').value;
     let description = this.querySelector('[name=description]').value;
     let date = this.querySelector('[name=date]').value;
-    let project = this.querySelector('select').value;
+    let selectProject = this.querySelector('select').value;
+    let newProject = this.querySelector('[name=new-project]').value;
+
+    let project;
+
+    if(newProject.length > 0){
+         project = newProject;
+    }else{  
+        project = selectProject;
+    }
 
     let todo = todoFactory(title, description, date, project);
     todos.push(todo);
@@ -41,13 +52,15 @@ function addTodo (e) {
     // checks if new to-do has an assigned project
     // then renders the project view or the home page
     if (project.length > 0) {
-        loadPage(project, filterTodos(todos));
+        loadPage(project, filterTodos(todos, project));
         projects = getProjects(todos);
         loadProjects(projects);
         setSidebarListeners(); 
     } else {
         loadPage('Home', todos)
     }
+
+    showNotification('created');
 
     this.reset();
 }
@@ -58,7 +71,15 @@ function editTodo (e) {
     let title = this.querySelector('[name=title]').value;
     let description = this.querySelector('[name=description]').value;
     let date = this.querySelector('[name=date]').value;
-    let project = this.querySelector('select').value;
+    let selectProject = this.querySelector('select').value;
+    let newProject = this.querySelector('[name=new-project]').value;
+    let project;
+
+    if(newProject.length > 0){
+        project = newProject;
+   }else{  
+       project = selectProject;
+   }
 
     let index = this.querySelector('input[type = "hidden"]').value;
 
@@ -70,41 +91,55 @@ function editTodo (e) {
     // checks if edited to-do has an assigned project
     // then renders the project view or the home page
     if(project.length > 0){
-        loadPage(project, filterTodos(todos));
+        loadPage(project, filterTodos(todos, project));
         projects = getProjects(todos);
         loadProjects(projects);
         setSidebarListeners(); 
     }else{
         loadPage('Home', todos)
     }
+
+    showNotification('edited');
+
     this.reset();
 }
 
-
+// opens modal for the new to-do form
 function toggleNewModal() {
     let modal = document.querySelector('.new-todo');
+    let form = modal.querySelector('form');
     modal.classList.toggle('modal-active');
+    populateProjectOptions(form, projects)
 }
-
+// opens modal for editing a to-do
 function toggleEditModal(){
     let modal = document.querySelector('.edit-todo');
     modal.classList.toggle('modal-active');
 }
 
 
-
+// event delegation
 // handle clicks for individual to-do items
 function handleClick (e) {
     if (e.target.matches('input')) {
         let index = e.target.dataset.index;
-        this.querySelector(`.item${index}`).classList.toggle('completed');
+        let item = this.querySelector(`.item${index}`)
+        item.classList.toggle('completed');
+        if(item.classList.contains('completed')){
+            showNotification('completed');
+        }
         toggleCompleted(todos, index);
         localStorage.setItem('todos', JSON.stringify(todos));
-    } else if (e.target.matches('button')){
-        let index = e.target.value;
+    } else if (e.target.matches('.edit-button')){
+        let index = e.target.dataset.index;
         let item = todos[index];
         toggleEditModal();
-        populateEditForm(index, item);
+        populateEditForm(index, item, projects);
+    } else if (e.target.matches('.expand-button')){
+        let item = e.target;
+        let parent = item.parentNode;
+        let details = parent.parentNode.querySelector('.details');
+        details.classList.toggle('expand-details');
     }
 }
 
@@ -152,7 +187,7 @@ projectsLink.addEventListener('click',  () => {
 
 
 // initializes the app with rendering the 'home' view
-loadPage('Home', todos);
+loadPage('Home', sortTodos(todos));
 loadProjects(projects);
 setSidebarListeners();
 

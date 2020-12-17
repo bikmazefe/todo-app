@@ -11,7 +11,7 @@ const todoFactory = (title, description, dueDate, project) => {
 // filters the to-do array if any filter is given
 // otherwise returns the uncategorized to-dos
 const filterTodos = (arr, filter = "") => {
-    let todos = arr.filter(todo => todo.project == filter);
+    let todos = arr.filter(todo => todo.project === filter);
     return sortTodos(todos);
 }
 
@@ -23,7 +23,7 @@ const sortTodos = (arr) => {
 // returns an array of unique project names
 const getProjects = (arr) => {
     let projects = arr.map(todo => todo.project);
-   return projects.filter((project, index) => projects.indexOf(project) == index);  
+   return projects.filter((project, index) => projects.indexOf(project) == index && project !== "");  
 }
 
 // toggles the 'completed' property of an individual to-do item
@@ -31,4 +31,4 @@ const toggleCompleted = (arr, index) => {
     arr[index].completed = !arr[index].completed;
 }
 
-export { filterTodos, todoFactory , getProjects, toggleCompleted }
+export { filterTodos, todoFactory , getProjects, toggleCompleted, sortTodos }
