@@ -5,12 +5,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/clipboard.svg" type="image/x-icon">
     <title>ToDoodle</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <main>
         <aside id = "sidebar">
+            <div class="logo">
+                <img src="./images/clipboard.svg" alt="">
+                <h1>To<span>Doodle</span></h1>
+            </div>
             <ul id = "side-links">
                 <li id = "home" class = "side-link active-link"><i class="fas fa-home fa-fw icon"></i><span>Home</span></li>
                 <li id = "uncategorized" class = "side-link"><i class="fas fa-box-open"></i><span>Uncategorized</span></li>
@@ -19,6 +23,10 @@
                     <li class = "side-link">Hi</li>
                 </ul>
             </ul>
+            <a class="github" href = "https://github.com/bikmazefe">
+                <img src="./images/github.svg" id = "github-logo">
+                <span>| coded by bikmazefe</span>
+            </a>
         </aside>
         <div id="content">
             <h1 id = "page-title"></h1>
@@ -36,9 +44,11 @@
                     <input type="date" name="date"  autocomplete="off" required>
                     <div class="projects-group">
                         <label for="project">Select Project</label>
-                        <select name="project-select"  >                         
+                        <select name="project-select">                         
                         </select>
                     </div>
+                    <label for = "new-project">...or create a new one:</label>
+                    <input type="text" name="new-project">
                     <label for="description">Description</label>
                     <textarea  name="description" cols="30" rows="10" required></textarea>
                     <input type="submit" value="Create">
@@ -54,16 +64,18 @@
                     <input type="date" name="date"  autocomplete="off" required>
                     <div class="projects-group">
                         <label for="project">Select Project</label>
-                        <select name="project-select" id="project-select" >
-                            
+                        <select name="project-select" id="project-select" >                      
                         </select>
                     </div>
+                    <label for = "new-project">...or create a new one:</label>
+                    <input type="text" name="new-project">
                     <label for="description">Description</label>
                     <textarea  name="description"  cols="30" rows="10" required></textarea>
-                    <input type="submit" value="Create">
+                    <input type="submit" value="Edit">
                 </form>
         </div>
     </main>
+    <div class="notification-container"></div>
     <script src="main.js"></script>
 </body>
 </html>
